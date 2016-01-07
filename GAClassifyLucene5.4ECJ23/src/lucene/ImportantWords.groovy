@@ -1,4 +1,4 @@
-   package lucene;
+package lucene;
 
 import org.apache.lucene.index.SlowCompositeReaderWrapper
 import org.apache.lucene.index.Term
@@ -12,12 +12,12 @@ import org.apache.lucene.search.TotalHitCountCollector
 import org.apache.lucene.search.spans.SpanFirstQuery
 import org.apache.lucene.search.spans.SpanTermQuery
 import org.apache.lucene.util.BytesRef
-import wordTools.*
-import query.*;
 
+import query.*
+import wordTools.*
 
 /**
- * GP functions may return words by selecting form word lists provided by this
+ * GAs return words by selecting form word lists provided by this
  * class. The words should be as far as possible in order of their likely
  * usefulness in query building
  * 
@@ -66,8 +66,6 @@ public class ImportantWords {
 			def word = text.utf8ToString()
 
 			final Term t = new Term(IndexInfoStaticG.FIELD_CONTENTS, word);
-			
-		//	println "word: $word t.text " + t.text()
 
 			if (word=="") continue
 			
@@ -82,8 +80,6 @@ public class ImportantWords {
 						//|| stopSet.contains(t.text()))
 			continue;
 
-			
-			//println " word after:    $word"
 			Query q;
 			if (spanFirstQ){
 				q = new SpanFirstQuery(new SpanTermQuery(t),

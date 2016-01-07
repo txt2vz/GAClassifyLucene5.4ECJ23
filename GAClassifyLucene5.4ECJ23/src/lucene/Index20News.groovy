@@ -26,7 +26,7 @@ class Index20News {
 	def indexPath =  "C:\\Users\\laurie\\Java\\indexes2\\20bydate"	 
 
 	// Index files in this directory
-	def docsPath = "C:\\Users\\Laurie\\Dataset\\20NGb10"
+	def docsPath = "C:\\Users\\Laurie\\Dataset\\20bydate"
 
 	static main(args) {
 		def i = new Index20News()
@@ -47,15 +47,13 @@ class Index20News {
 		iwc.setOpenMode(OpenMode.CREATE);
 
 		IndexWriter writer = new IndexWriter(directory, iwc);
-		//def z=0
 
 		new File(docsPath).eachDir {
 			def catNumber=0;
 			it .eachDir {
 
 				it.eachFileRecurse {
-					if (!it.hidden && it.exists() && it.canRead() && !it.directory){   //&& !docsCatMap.containsKey(it.name)) {
-
+					if (!it.hidden && it.exists() && it.canRead() && !it.directory){   
 						indexDocs(writer,it, catNumber)
 					}
 				}
@@ -67,11 +65,10 @@ class Index20News {
 		println(end.getTime() - start.getTime() + " total milliseconds");
 		println "***************************************************************"
 
+		//  search to test index   **************************
 		String querystr =  "gun";
-
 		Query q = new QueryParser(IndexInfoStaticG.FIELD_CONTENTS, analyzer).parse(querystr);
-	
-		//  search
+			
 		int hitsPerPage = 5;
 		IndexReader reader2 =  writer.getReader();
 
@@ -81,7 +78,6 @@ class Index20News {
 		searcher.search(q, collector);
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
-		// 4. display results
 		println "Searching for: $querystr Found ${hits.length} hits:"
 		hits.each{
 			int docId = it.doc;
@@ -93,10 +89,8 @@ class Index20News {
 		reader2.close();
 		writer.close();
 	}
-	/**
-	 * Indexes the given file using the given writer, or if a directory is given,
-	 * recurses over files and directories found under the given directory.
-	 */
+
+	//index the doc adding fields for path, category, test/train and contents
 	def indexDocs(IndexWriter writer, File f, categoryNumber)
 	throws IOException {
 

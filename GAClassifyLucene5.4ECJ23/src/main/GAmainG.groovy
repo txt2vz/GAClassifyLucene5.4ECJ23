@@ -17,19 +17,12 @@ import ec.Fitness;
 class GAmainG extends Evolve {
 
 	private final String parameterFilePath =
-//	
-//	"C:\\Users\\Laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\OR.params";
-	//"C:\\Users\\Laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\OR_NOT.params";
-	//"C:\\Users\\Laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\AND.params";
-	//"C:\\Users\\Laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\AND_OR.params";
-	// "C:\\Users\\Laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\SpanFirst.params";
-//	 	"C:\\Users\\Laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\SpanFirstNOT.params";	
-//	"C:\\Users\\Laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\SpanNear10.params";
-// 	"C:\\Users\\Laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\ORMinShould.params";
-	"C:\\Users\\Laurie\\workspace\\GAClassify\\src\\cfg\\OR.params";
+	//"src//cfg//AND.params"
+	"src//cfg//OR.params"
+
 	private int totPosMatchedTest = 0, totTest = 0, totNegMatchTest = 0;
 
-	private final static int NUMBER_OF_CATEGORIES = 10 , NUMBER_OF_JOBS = 1;
+	private final static int NUMBER_OF_CATEGORIES = 20 , NUMBER_OF_JOBS = 1;
 
 	private double microF1AllRunsTotal = 0, macroF1AllRunsTotal = 0,
 	microBEPAllRunsTotal = 0;
@@ -37,7 +30,7 @@ class GAmainG extends Evolve {
 	public GAmainG(){
 		EvolutionState state;
 
-		Formatter bestResultsOut = new Formatter("results.csv");
+		Formatter bestResultsOut = new Formatter("results//results.csv");
 
 		final String fileHead = "category, job, f1train, f1test, bepTest, totPositiveTest, totNegativeTest, totTestDocsInCat, query" + '\n';
 

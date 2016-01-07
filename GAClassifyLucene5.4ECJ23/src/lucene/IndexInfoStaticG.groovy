@@ -38,12 +38,12 @@ public class IndexInfoStaticG {
 	//"C:\\Users\\laurie\\Java\\indexes\\indexOhsumed"
 	
 	//"C:\\Users\\laurie\\Java\\indexes\\20NGb";
-	"C:\\Users\\laurie\\Java\\indexes2\\20NG10"
+	//"C:\\Users\\laurie\\Java\\indexes2\\20NG10"
+	"C:\\Users\\laurie\\Java\\indexes2\\20bydate"
 	//"C:\\Users\\laurie\\Java\\indexes\\index2WebKB"
 	
 	static IndexSearcher indexSearcher;
 
-	//private static int categoryNumber = 13;
 	private static String categoryNumber="0";
 
 	// Lucene field names
@@ -85,12 +85,7 @@ public class IndexInfoStaticG {
 	private static void setFilters() throws IOException {
 
 		final TermQuery catQ = new TermQuery(new Term(IndexInfoStaticG.FIELD_CATEGORY,
-				//	"02_crude"));
-				//	"C14"));
-				//String.valueOf(categoryNumber)
-				categoryNumber
-
-				));
+					categoryNumber));
 
 		catTrainBQ = new BooleanQuery(true);
 		othersTrainBQ = new BooleanQuery(true);
@@ -233,7 +228,7 @@ public class IndexInfoStaticG {
 		query.add(sfq, BooleanClause.Occur.SHOULD);
 
 
-		TopScoreDocCollector collector0 = TopScoreDocCollector.create(200, true);
+		TopScoreDocCollector collector0 = TopScoreDocCollector.create(200);
 		searcher.search(query, IndexInfoStaticG.othersTestF, collector0);
 		ScoreDoc[] hits = collector0.topDocs().scoreDocs;
 

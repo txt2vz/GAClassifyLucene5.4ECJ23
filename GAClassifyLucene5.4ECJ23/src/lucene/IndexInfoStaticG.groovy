@@ -33,14 +33,7 @@ import query.*
 public class IndexInfoStaticG {
 
 	private final static String pathToIndex =
-//	//	"C:\\Users\\laurie\\Java\\indexes\\index20News10B"
-//	"C:\\Users\\laurie\\Java\\indexes\\indexReuters10NoDup";
-	//"C:\\Users\\laurie\\Java\\indexes\\indexOhsumed"
-	
-	//"C:\\Users\\laurie\\Java\\indexes\\20NGb";
-	//"C:\\Users\\laurie\\Java\\indexes2\\20NG10"
-	"C:\\Users\\laurie\\Java\\indexes2\\20bydate"
-	//"C:\\Users\\laurie\\Java\\indexes\\index2WebKB"
+	  "C:\\Users\\laurie\\Java\\indexes2\\20bydate"
 	
 	static IndexSearcher indexSearcher;
 
@@ -137,122 +130,5 @@ public class IndexInfoStaticG {
 
 		println "Total train docs: $totalTrain"
 		println "CategoryNumber $categoryNumber Total train in cat: $totalTrainDocsInCat  Total others tain: $totalOthersTrainDocs   Total test in cat : $totalTestDocsInCat  "
-	}
-
-	// just for testing
-	public static void main(String[] args) {
-
-		int positiveMatch=0, negativeMatch=0;
-		IndexSearcher searcher = IndexInfoStaticG
-				.getIndexSearcher();
-
-		println "setting filters"
-		IndexInfoStaticG.setFilters();
-
-		BooleanQuery query2 = new BooleanQuery(true);
-		query2.add(new TermQuery(
-				new Term(IndexInfoStaticG.FIELD_CATEGORY, "3")),
-				BooleanClause.Occur.SHOULD)
-		
-		BooleanQuery query3 = new BooleanQuery(true);
-		query3.add(new TermQuery(
-				new Term(IndexInfoStaticG.FIELD_TEST_TRAIN, "train")),
-				BooleanClause.Occur.SHOULD)
-
-		TotalHitCountCollector collector2 = new TotalHitCountCollector();
-		searcher.search(query2, //IndexInfoStaticG.catTrainF,
-				collector2);
-		final int t2 = collector2.getTotalHits();
-
-		collector2 = new TotalHitCountCollector();
-		searcher.search(query3, //IndexInfoStaticG.catTrainF,
-				collector2);
-		final int t3 = collector2.getTotalHits();
-		
-		def t4 = t2 + t3
-
-		println " t2 is $t2 t3 is $t3 t4 is $t4"
-
-		println"****************************************************************************"
-
-
-		BooleanQuery query = new BooleanQuery(true);
-		//query.setMinimumNumberShouldMatch(5);
-		SpanFirstQuery sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "angina")), 139);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "angioplasty")), 281);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "antihypertensive")), 135);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "aortic")), 84);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "arteries")), 23);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "cardiac")), 23);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "coronary")), 266);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "diastolic")), 95);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "doppler")), 68);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "echocardiography")), 291);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "heart")), 19);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "hypertension")), 32);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "hypertensive")), 109);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "ischemia")), 21);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "myocardial")), 70);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-		sfq = new SpanFirstQuery(new SpanTermQuery(new Term(
-				IndexInfoStaticG.FIELD_CONTENTS, "valve")), 280);
-		query.add(sfq, BooleanClause.Occur.SHOULD);
-
-
-		TopScoreDocCollector collector0 = TopScoreDocCollector.create(200);
-		searcher.search(query, IndexInfoStaticG.othersTestF, collector0);
-		ScoreDoc[] hits = collector0.topDocs().scoreDocs;
-
-		println "Searching for: $query Found ${hits.length} hits:"
-		hits.each{
-			int docId = it.doc;
-			Document d = searcher.doc(docId);
-			println(d.get(IndexInfoStaticG.FIELD_TEST_TRAIN) + "\t" + d.get(IndexInfoStaticG.FIELD_PATH) + "\t" +
-					d.get(IndexInfoStaticG.FIELD_CATEGORY) );
-		}
-
-		TotalHitCountCollector collector = new TotalHitCountCollector();
-		searcher.search(query, IndexInfoStaticG.catTestF,
-				collector);
-		positiveMatch = collector.getTotalHits();
-
-		collector = new TotalHitCountCollector();
-		searcher.search(query, IndexInfoStaticG.othersTestF,
-				collector);
-		negativeMatch = collector.getTotalHits();
-
-		println "Positive match test: $positiveMatch  Negative match test: $negativeMatch total in cat $totalTestDocsInCat"
-
-		def f1 = ClassifyQuery.f1(positiveMatch, negativeMatch, IndexInfoStaticG.totalTestDocsInCat)
-		println "F1 $f1"
 	}
 }

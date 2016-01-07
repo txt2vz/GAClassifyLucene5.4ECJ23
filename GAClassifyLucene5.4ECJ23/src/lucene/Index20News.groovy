@@ -27,26 +27,26 @@ class Index20News {
 
 	// Index files in this directory
 	def docsPath = "C:\\Users\\Laurie\\Dataset\\20bydate"
+	
+	Path path = Paths.get(indexPath)
+	Directory directory = FSDirectory.open(path)
+	Analyzer analyzer = new StandardAnalyzer();
+	IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
+	IndexWriter writer = new IndexWriter(directory, iwc);
 
 	static main(args) {
 		def i = new Index20News()
-		i.setup()
+		i.buildIndex()
+		i.close()
 	}
 
-	def setup() {
-
+	def buildIndex() {
 		Date start = new Date();
 		println("Indexing to directory '" + indexPath + "'...");
-		Path path = Paths.get(indexPath)
-		Directory directory = FSDirectory.open(path)
-		Analyzer analyzer = new StandardAnalyzer();
-		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
-
+	
 		// Create a new index in the directory, removing any
 		// previously indexed documents:
 		iwc.setOpenMode(OpenMode.CREATE);
-
-		IndexWriter writer = new IndexWriter(directory, iwc);
 
 		new File(docsPath).eachDir {
 			def catNumber=0;
@@ -63,31 +63,12 @@ class Index20News {
 
 		Date end = new Date();
 		println(end.getTime() - start.getTime() + " total milliseconds");
-		println "***************************************************************"
-
-		//  search to test index   **************************
-		String querystr =  "gun";
-		Query q = new QueryParser(IndexInfoStaticG.FIELD_CONTENTS, analyzer).parse(querystr);
-			
-		int hitsPerPage = 5;
-		IndexReader reader2 =  writer.getReader();
-
-		println " reader max doc " + reader2.maxDoc()
-		IndexSearcher searcher = new IndexSearcher(reader2);
-		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
-		searcher.search(q, collector);
-		ScoreDoc[] hits = collector.topDocs().scoreDocs;
-
-		println "Searching for: $querystr Found ${hits.length} hits:"
-		hits.each{
-			int docId = it.doc;
-			Document d = searcher.doc(docId);
-			println(d.get(IndexInfoStaticG.FIELD_TEST_TRAIN) + "\t" + d.get("path") + "\t" +
-					d.get(IndexInfoStaticG.FIELD_CATEGORY) );
-		}
-		
-		reader2.close();
-		writer.close();
+		println "***************************************************************"	
+		//writer.close();		
+	}
+	
+	def close (){
+		writer.close()
 	}
 
 	//index the doc adding fields for path, category, test/train and contents

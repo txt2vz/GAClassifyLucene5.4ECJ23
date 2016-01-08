@@ -21,8 +21,10 @@ public class StopLists {
 
 		final Scanner sc = new Scanner(
 				new File(
+						
+						"src//cfg//stop_words_moderate.txt"));	
 					//	C:\Users\laurie\Java\classifyGA\classifyGA\classify\cfg
-						"C:\\Users\\laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\stop_words_moderate.txt"));
+					//	"C:\\Users\\laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\stop_words_moderate.txt"));
 					//	"C:\\Users\\laurie\\Java\\classifyGALucene4ECJ21\\classify\\cfg\\stop_words_most.txt"));
 		//"C:\\Users\\Laurie\\Java\\classifyGAN\\classify\\cfg\\stop_words_moderate.txt"));
 
